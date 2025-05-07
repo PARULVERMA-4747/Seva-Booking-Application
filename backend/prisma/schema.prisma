@@ -1,0 +1,26 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Seva {
+  id              Int      @id @default(autoincrement())
+  code            String   @unique
+  title           String
+  tags            String[]
+  description     String
+  marketPrice     Float
+  discountedPrice Float
+  start           DateTime
+  end             DateTime
+  amountRaised    Float
+  targetAmount    Float
+  media           String
+  createdAt       DateTime @default(now())
+}
