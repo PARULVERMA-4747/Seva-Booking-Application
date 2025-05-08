@@ -1,5 +1,3 @@
-// prisma/schema.prisma
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -24,3 +22,41 @@ model Seva {
   media           String
   createdAt       DateTime @default(now())
 }
+
+model User {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String
+  contact   String    @unique
+  verified  Boolean   @default(false)
+  createdAt DateTime  @default(now())
+  addresses Address[] // 💡 address relation
+}
+
+model Address {
+  id        Int     @id @default(autoincrement())
+  name      String
+  addrLine1 String
+  addrLine2 String
+  pincode   String
+  city      String
+  state     String
+  type      Int
+  verified  Boolean @default(false)
+
+  userId    Int
+  user      User    @relation(fields: [userId], references: [id])
+
+  orders    Order[]
+}
+
+model Order {
+  id          Int      @id @default(autoincrement())
+  items       Json
+  addressId   Int
+  address     Address  @relation(fields: [addressId], references: [id])
+  orderDate   DateTime @default(now())
+  amountToPay Float
+  paymentId   Int
+}
+
