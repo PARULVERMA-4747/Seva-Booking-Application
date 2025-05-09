@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Overlay = styled.div`
@@ -37,6 +38,7 @@ const Button = styled.button`
 
 function PaymentModal({ onClose }) {
   const [method, setMethod] = useState('card');
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     cardNumber: '',
     expiry: '',
@@ -57,6 +59,7 @@ function PaymentModal({ onClose }) {
     if (method === 'upi' && !validateUpi()) return alert('Invalid UPI');
     alert('Payment successful');
     onClose();
+    navigate('/');
   };
 
   return (
